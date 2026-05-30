@@ -43,7 +43,7 @@ const [message, setMessage] =
 
       const res = await axios.get(
 
-        "http://localhost:5000/api/contacts",
+        "https://saveher.onrender.com/api/contacts",
 
         {
           headers: {
@@ -77,7 +77,7 @@ const [message, setMessage] =
 
       await axios.post(
 
-        "http://localhost:5000/api/contacts",
+        "https://saveher.onrender.com/api/contacts",
 
         formData,
 
@@ -107,7 +107,7 @@ const [message, setMessage] =
 
       await axios.delete(
 
-        `http://localhost:5000/api/contacts/${id}`,
+        `https://saveher.onrender.com/api/contacts/${id}`,
 
         {
           headers: {
@@ -143,7 +143,7 @@ const handleSOS = () => {
 
         const res = await axios.post(
 
-          "http://localhost:5000/api/sos",
+          "https://saveher.onrender.com/api/sos",
 
           {
             latitude,

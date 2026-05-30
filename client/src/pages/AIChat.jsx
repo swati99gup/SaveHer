@@ -27,7 +27,7 @@ const token=localStorage.getItem("token");
 console.log("TOKEN:", token);
       const res = await axios.post(
 
-        "http://localhost:5000/api/ai",
+        "https://saveher.onrender.com/api/ai",
 
         { message },
         {
