@@ -1,10 +1,13 @@
 import dotenv from "dotenv";
 dotenv.config();
 
-import { Resend } from "resend";
+import Brevo from "@getbrevo/brevo";
 
-const resend = new Resend(
-  process.env.RESEND_API_KEY
+const apiInstance = new Brevo.TransactionalEmailsApi();
+
+apiInstance.setApiKey(
+  Brevo.TransactionalEmailsApiApiKeys.apiKey,
+  process.env.BREVO_API_KEY
 );
 
 export const sendSOSMail = async (
@@ -14,42 +17,66 @@ export const sendSOSMail = async (
   longitude
 ) => {
   try {
+
     const locationLink =
       `https://maps.google.com/?q=${latitude},${longitude}`;
 
-    const { data, error } =
-      await resend.emails.send({
-        from: "onboarding@resend.dev",
-        to: toEmail,
-        subject: "🚨 SOS EMERGENCY ALERT",
-        text: `
-🚨 EMERGENCY ALERT 🚨
+    const email = new Brevo.SendSmtpEmail();
 
-${userName} may be in danger.
+    email.subject =
+      "🚨 SOS EMERGENCY ALERT";
 
-Live Location:
-${locationLink}
+    email.htmlContent = `
+      <h2>🚨 EMERGENCY ALERT 🚨</h2>
 
-Please contact immediately.
-        `,
-      });
+      <p>
+        <strong>${userName}</strong>
+        may be in danger.
+      </p>
 
-    if (error) {
-      console.error("RESEND ERROR:", error);
-      throw error;
-    }
+      <p>
+        <strong>Live Location:</strong>
+      </p>
+
+      <a href="${locationLink}">
+        Open Location
+      </a>
+
+      <br><br>
+
+      <p>
+        Please contact immediately.
+      </p>
+    `;
+
+    email.sender = {
+      name: "SaveHer",
+      email: "swatigupta060605@gmail.com"
+    };
+
+    email.to = [
+      {
+        email: toEmail
+      }
+    ];
+
+    const result =
+      await apiInstance.sendTransacEmail(
+        email
+      );
 
     console.log(
-      "Email Sent Successfully:",
-      data
+      "Email Sent:",
+      result.body
     );
 
-    return data;
   } catch (err) {
+
     console.error(
-      "Failed to send email:",
+      "BREVO ERROR:",
       err
     );
+
     throw err;
   }
 };
