@@ -1,76 +1,55 @@
 import dotenv from "dotenv";
 dotenv.config();
-import nodemailer
-from "nodemailer";
-console.log("EMAIL_USER:", process.env.EMAIL_USER);
-console.log(
-  "EMAIL_PASS LENGTH:",
-  process.env.EMAIL_PASS?.length
+
+import { Resend } from "resend";
+
+const resend = new Resend(
+  process.env.RESEND_API_KEY
 );
-const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 465,
-  secure: true,
-  family: 4,
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
-});
-  
-transporter.verify(function (error, success) {
-  if (error) {
-    console.log("VERIFY ERROR:", error);
-  } else {
-    console.log("SMTP READY");
-  }
-});
-export const sendSOSMail =
-async (
 
+export const sendSOSMail = async (
   toEmail,
-
   userName,
-
   latitude,
-
   longitude
-
 ) => {
+  try {
+    const locationLink =
+      `https://maps.google.com/?q=${latitude},${longitude}`;
 
-  const locationLink =
-
-`https://maps.google.com/?q=${latitude},${longitude}`;
-
-  const mailOptions = {
-
-    from:
-      process.env.EMAIL_USER,
-
-    to:
-      toEmail,
-
-    subject:
-      "🚨 SOS EMERGENCY ALERT",
-
-    text:
-
-`🚨 EMERGENCY ALERT 🚨
+    const { data, error } =
+      await resend.emails.send({
+        from: "onboarding@resend.dev",
+        to: toEmail,
+        subject: "🚨 SOS EMERGENCY ALERT",
+        text: `
+🚨 EMERGENCY ALERT 🚨
 
 ${userName} may be in danger.
 
 Live Location:
 ${locationLink}
 
-Please contact immediately.`
-  };
+Please contact immediately.
+        `,
+      });
 
-  await transporter.sendMail(
-    mailOptions
-  );
+    if (error) {
+      console.error("RESEND ERROR:", error);
+      throw error;
+    }
 
-  console.log(
-    "Email Sent To:",
-    toEmail
-  );
+    console.log(
+      "Email Sent Successfully:",
+      data
+    );
+
+    return data;
+  } catch (err) {
+    console.error(
+      "Failed to send email:",
+      err
+    );
+    throw err;
+  }
 };
