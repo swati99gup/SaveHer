@@ -47,146 +47,73 @@ if (
     }
   };
 
-  return (
-    <div
-  style={{
-    height: "100vh",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    background: "#121212"
-  }}
->
-  <form
-   onSubmit={handleSubmit}
-    style={{
-      width: "320px",
-      padding: "25px",
-      background: "#1e1e1e",
-      borderRadius: "12px",
-      display: "flex",
-      flexDirection: "column",
-      gap: "15px",
-      boxShadow: "0 0 10px rgba(0,0,0,0.5)"
-    }}
-  >
-    <h1 style={{ color: "white" }}>
-      SafeHer Signup
-    </h1>
+return (
+  <div className="auth-page">
 
-    <input
-       placeholder="Name"
-  type="text"
-  name="name"
-  value={formData.name}
-  onChange={handleChange}
-      style={{
-        padding: "12px",
-        background: "#2b2b2b",
-        color: "white",
-        border: "1px solid #555",
-        borderRadius: "6px"
-      }}
-    />
+    <form
+      onSubmit={handleSubmit}
+      className="auth-card"
+    >
 
-    <input
-      placeholder="Email"
-  type="email"
-  name="email"
-  value={formData.email}
-  onChange={handleChange}
-      style={{
-        padding: "12px",
-        background: "#2b2b2b",
-        color: "white",
-        border: "1px solid #555",
-        borderRadius: "6px"
-      }}
-    />
-<input
-       placeholder="Password"
-  type="password"
-  name="password"
-  value={formData.password}
-  onChange={handleChange}
-      style={{
-        padding: "12px",
-        background: "#2b2b2b",
-        color: "white",
-        border: "1px solid #555",
-        borderRadius: "6px"
-      }}
-    />
-        <button
+      <div className="auth-logo">
+        🛡️
+      </div>
+
+      <h1 className="auth-title">
+        Create Account
+      </h1>
+
+      <p className="auth-subtitle">
+        Join SafeHer and stay protected
+      </p>
+
+      <input
+        type="text"
+        name="name"
+        placeholder="Full Name"
+        value={formData.name}
+        onChange={handleChange}
+        className="auth-input"
+      />
+
+      <input
+        type="email"
+        name="email"
+        placeholder="Email"
+        value={formData.email}
+        onChange={handleChange}
+        className="auth-input"
+      />
+
+      <input
+        type="password"
+        name="password"
+        placeholder="Password"
+        value={formData.password}
+        onChange={handleChange}
+        className="auth-input"
+      />
+
+      <button
         type="submit"
-  style={styles.button}
+        className="auth-btn"
+      >
+        Signup
+      </button>
 
-  onMouseOver={(e) => {
-    e.target.style.background = "#ff5fa8";
-    e.target.style.transform = "scale(1.03)";
-  }}
+      <p className="auth-link">
+        Already have an account?
 
-  onMouseOut={(e) => {
-    e.target.style.background = "#ff8fc7";
-    e.target.style.transform = "scale(1)";
-  }}
+        <Link to="/">
+          Login
+        </Link>
+      </p>
 
-  onMouseDown={(e) => {
-    e.target.style.transform = "scale(0.95)";
-    e.target.style.background = "#ff2f92";
-  }}
+    </form>
 
-  onMouseUp={(e) => {
-    e.target.style.transform = "scale(1.03)";
-  }}
->
-  Signup
-</button>
-
-        <p style={{color:"white"}}>
-          Already have account?
-          <Link to="/">
-            Login
-          </Link>
-        </p>
-
-      </form>
-
-    </div>
-  );
+  </div>
+);
 }
 
-const styles = {
-
-  container: {
-    height: "100vh",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    background: "#f2f2f2"
-  },
-
-  form: {
-    width: "300px",
-    padding: "20px",
-    background: "white",
-    borderRadius: "10px",
-    display: "flex",
-    flexDirection: "column",
-    gap: "10px"
-  },
-
-  input: {
-    padding: "10px"
-  },
-
-  button: {
-    padding: "10px",
-    background: "hotpink",
-    color: "white",
-    border: "none",
-    cursor: "pointer"
-  }
-};
 
 export default Signup;

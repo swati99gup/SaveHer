@@ -6,7 +6,7 @@ import {
 }
 from "../services/emailService.js";
 export const createSOS = async (req, res) => {
-
+console.log("SOS API HIT",new Date());
   try {
 
     const { latitude, longitude } = req.body;

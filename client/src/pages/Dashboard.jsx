@@ -20,6 +20,10 @@ const [loading, setLoading] =
 
 const [message, setMessage] =
   useState("");
+  const [motionLevel, setMotionLevel] =
+  useState(0);
+
+
   const [formData, setFormData] =
   useState({
     name: "",
@@ -191,48 +195,116 @@ const handleSOS = () => {
 
       <Navbar />
 
-      <div style={styles.container}>
+      <div className="dashboard">
+<div className="welcome-card">
+    <h2>Welcome Back
 
-<SOSButton
-  handleSOS={handleSOS}
-  loading={loading}
-  message={message}
-/>
+</h2>
 
-<LocationMap />
-        <ContactForm
-          formData={formData}
-          handleChange={handleChange}
-          addContact={addContact}
-        />
+    <p>
+      Your safety companion is active.
+SOS alerts, live tracking and emergency assistance are ready. 
+    </p>
+  </div>
+  <div className="stats-grid">
 
-        <ContactList
-          contacts={contacts}
-          deleteContact={deleteContact}
-        />
+  <div className="stat-card">
+    <h2>{contacts.length}</h2>
+    <p>Emergency Contacts</p>
+  </div>
 
+  <div className="stat-card">
+    <h2>Active</h2>
+    <p>Protection Status</p>
+  </div>
+
+</div>
+
+  <div className="hero-section">
+    <SOSButton
+      handleSOS={handleSOS}
+      loading={loading}
+      message={message}
+    />
+  </div>
+
+  <div className="feature-grid">
+
+    <div className="feature-card">
+      <h3>📍 Live Location</h3>
+      <LocationMap />
+    </div>
+
+    <div className="feature-card">
+  <h3>📳 Shake Detection</h3>
+
+  <div className="shake-status">
+    <div className="status-dot"></div>
+
+    <h3>Protection Active</h3>
+
+    <p>
+      Shake your phone to trigger an
+      emergency SOS alert.
+    </p>
+
+    <div className="motion-container">
+      <h4>Motion Detection</h4>
+
+      <div className="motion-bar">
+        <div
+          className="motion-fill"
+          style={{
+            width: `${motionLevel}%`
+          }}
+        ></div>
       </div>
 
+      <p>{motionLevel}%</p>
+
+      <p>
+  {motionLevel < 40
+    ? "🟢 Safe"
+    : motionLevel < 70
+    ? "🟡 Alert"
+    : "🔴 SOS Ready"}
+</p>
+    </div>
+
+  </div>
+
+  <ShakeDetector
+    onShake={handleSOS}
+    onMotionChange={setMotionLevel}
+  />
+</div>
+  </div>
+  <div className="contacts-grid">
+
+  <div className="contact-form-card">
+    
+
+    <ContactForm
+      formData={formData}
+      handleChange={handleChange}
+      addContact={addContact}
+    />
+  </div>
+
+  <div className="contact-list-card">
+    <ContactList
+      contacts={contacts}
+      deleteContact={deleteContact}
+    />
+  </div>
+
+</div>
+</div>
     </div>
   );
 }
 
 
 
-const styles = {
-
-  container: {
-
-    display: "flex",
-
-    flexDirection: "column",
-
-    alignItems: "center",
-
-    gap: "30px",
-
-    marginTop: "30px"
-  }
-};
 
 export default Dashboard;

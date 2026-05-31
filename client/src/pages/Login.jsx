@@ -46,136 +46,71 @@ function Login() {
       alert("Login failed");
     }
   };
+return (
+  <div className="auth-page">
 
-  return (
+    <form
+      onSubmit={handleSubmit}
+      className="auth-card"
+    >
 
-    <div style={styles.container}>
+      <div className="auth-logo">
+        🛡️
+      </div>
 
-      <form
-        onSubmit={handleSubmit}
-        style={styles.form}
-      >
+      <h1 className="auth-title">
+        Welcome Back
+      </h1>
 
-        <h1 style={{ color: "white" }}>
-  SafeHer Login
-</h1>
+      <p className="auth-subtitle">
+        Sign in to access SafeHer
+      </p>
+
+      <input
+        type="email"
+        name="email"
+        placeholder="Email"
+        onChange={handleChange}
+        className="auth-input"
+      />
+
+      <div className="password-wrapper">
 
         <input
-          type="email"
-          name="email"
-          placeholder="Email"
+          type={
+            showPassword
+              ? "text"
+              : "password"
+          }
+          name="password"
+          placeholder="Password"
           onChange={handleChange}
-          style={styles.input}
+          className="auth-input"
         />
 
-        <div
-          style={{
-            position: "relative",
-            width: "100%"
-          }}
-        >
+      </div>
 
-          <input
-            type={
-              showPassword
-                ? "text"
-                : "password"
-            }
+      <button
+        type="submit"
+        className="auth-btn"
+      >
+        Login
+      </button>
 
-            name="password"
+      <p className="auth-link">
 
-            placeholder="Password"
+        No account?
 
-            onChange={handleChange}
+        <Link to="/signup">
+          Signup
+        </Link>
 
-            style={{
-  ...styles.input,
-  width: "100%",
-  height: "40px",
-  boxSizing: "border-box",
-  fontSize: "16px"
-}}
-          />
+      </p>
 
-          <span
+    </form>
 
-            onClick={() =>
-              setShowPassword(
-                !showPassword
-              )
-            }
-
-            style={{
-              position: "absolute",
-              right: "15px",
-              top: "50%",
-              transform:
-                "translateY(-50%)",
-              cursor: "pointer",
-              color: "hotpink",
-              fontWeight: "bold",
-              fontSize: "13px"
-            }}
-          >
-            
-          </span>
-
-        </div>
-
-        <button
-          style={styles.button}
-
-          onMouseOver={(e) => {
-            e.target.style.background =
-              "#ff5fa8";
-
-            e.target.style.transform =
-              "scale(1.03)";
-          }}
-
-          onMouseOut={(e) => {
-            e.target.style.background =
-              "#ff8fc7";
-
-            e.target.style.transform =
-              "scale(1)";
-          }}
-
-          onMouseDown={(e) => {
-            e.target.style.transform =
-              "scale(0.95)";
-
-            e.target.style.background =
-              "#ff2f92";
-          }}
-
-          onMouseUp={(e) => {
-            e.target.style.transform =
-              "scale(1.03)";
-          }}
-        >
-          Login
-        </button>
-
-        <p style={{ color: "white" }}>
-  No account?{" "}
-
-  <Link
-    to="/signup"
-    style={{
-      color: "#ff4da6",
-      textDecoration: "none",
-      fontWeight: "bold"
-    }}
-  >
-    Signup
-  </Link>
-</p>
-
-      </form>
-
-    </div>
-  );
+  </div>
+);
 }
 
 const styles = {
