@@ -1,8 +1,10 @@
 import dotenv from "dotenv";
 dotenv.config();
 
-import * as SibApiV3Sdk from "@getbrevo/brevo";
-const apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
+import SibApiV3Sdk from "sib-api-v3-sdk";
+
+const apiInstance =
+  new SibApiV3Sdk.TransactionalEmailsApi();
 
 const apiKey =
   SibApiV3Sdk.ApiClient.instance.authentications["api-key"];
