@@ -125,5 +125,8 @@ onMessage(
           payload.notification.body
       }
     );
+    console.log(
+      "Notification popup created"
+    );
   }
 );
