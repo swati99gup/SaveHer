@@ -198,9 +198,7 @@ const handleSOS = () => {
   loading={loading}
   message={message}
 />
-<ShakeDetector
-  onShake={handleSOS}
-/>
+
 <LocationMap />
         <ContactForm
           formData={formData}
