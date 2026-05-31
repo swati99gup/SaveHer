@@ -3,7 +3,10 @@ dotenv.config();
 import nodemailer
 from "nodemailer";
 console.log("EMAIL_USER:", process.env.EMAIL_USER);
-
+console.log(
+  "EMAIL_PASS LENGTH:",
+  process.env.EMAIL_PASS?.length
+);
 const transporter =
   nodemailer.createTransport({
 
@@ -21,7 +24,13 @@ const transporter =
   },
   });
   
-
+transporter.verify(function (error, success) {
+  if (error) {
+    console.log("VERIFY ERROR:", error);
+  } else {
+    console.log("SMTP READY");
+  }
+});
 export const sendSOSMail =
 async (
 
