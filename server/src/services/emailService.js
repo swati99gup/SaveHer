@@ -1,14 +1,15 @@
 import dotenv from "dotenv";
 dotenv.config();
 
-import Brevo from "@getbrevo/brevo";
+import SibApiV3Sdk from "@getbrevo/brevo";
 
-const apiInstance = new Brevo.TransactionalEmailsApi();
+const apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
 
-apiInstance.setApiKey(
-  Brevo.TransactionalEmailsApiApiKeys.apiKey,
-  process.env.BREVO_API_KEY
-);
+const apiKey =
+  SibApiV3Sdk.ApiClient.instance.authentications["api-key"];
+
+apiKey.apiKey = process.env.BREVO_API_KEY;
+
 
 export const sendSOSMail = async (
   toEmail,
@@ -21,7 +22,7 @@ export const sendSOSMail = async (
     const locationLink =
       `https://maps.google.com/?q=${latitude},${longitude}`;
 
-    const email = new Brevo.SendSmtpEmail();
+    const email = new SibApiV3Sdk.SendSmtpEmail();
 
     email.subject =
       "🚨 SOS EMERGENCY ALERT";
@@ -73,7 +74,7 @@ export const sendSOSMail = async (
   } catch (err) {
 
     console.error(
-      "BREVO ERROR:",
+      "Failed to send email:",
       err
     );
 
