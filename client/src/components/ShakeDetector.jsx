@@ -10,7 +10,7 @@ function ShakeDetector({ onShake, onMotionChange }) {
     let lastTime = 0;
         let motionCount = 0;
 
-    const threshold = 2;
+    const threshold = 18;
 
     const handleMotion = (event) => {
       const acceleration =
@@ -38,11 +38,15 @@ console.log(event.accelerationIncludingGravity);
           ) / diffTime * 10000;
 
         // Motion percentage (0-100)
-        const motionLevel =80;
+       const motionLevel =
+          Math.min(
+            Math.round((speed / threshold) * 100),
+            100
+          );
+console.log("Motion Level:", motionLevel);
         onMotionChange?.(motionLevel);
 
-
-if (motionLevel >= 10) {
+if (motionLevel >= 50) {
   motionCount++;
   console.log(
     "High Motion Count:",
