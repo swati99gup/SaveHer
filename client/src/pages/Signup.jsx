@@ -64,7 +64,7 @@ return (
       </h1>
 
       <p className="auth-subtitle">
-        Join SafeHer and stay protected
+        Join SafeMe and stay protected
       </p>
 
       <input
