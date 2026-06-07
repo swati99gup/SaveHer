@@ -18,7 +18,7 @@ function Navbar() {
     <nav className="navbar">
 
   <div className="logo">
-    🛡️ SafeHer
+    🛡️ SafeMe
   </div>
 
   {/* Desktop Menu */}
