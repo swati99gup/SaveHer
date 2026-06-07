@@ -63,7 +63,7 @@ return (
       </h1>
 
       <p className="auth-subtitle">
-        Sign in to access SafeHer
+        Sign in to access SafeMe
       </p>
 
       <input
