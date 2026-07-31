@@ -19,10 +19,18 @@ console.log("SOS API HIT",new Date());
     });
 
     // GET USER
-    const user = await User.findById(req.user.id)
-  .select("name emergencyContacts")
-  .populate("emergencyContacts");
+     const user = await User.findById(req.user.id)
+.select("name emergencyContacts");
+    // SEND PUSH NOTIFICATION
+    // POPULATE CONTACTS
 
+const populatedUser =
+
+  await User.findById(
+    req.user.id
+  ).populate(
+    "emergencyContacts"
+  );
 // SEND TO ALL CONTACTS
 
 
