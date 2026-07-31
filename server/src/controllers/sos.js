@@ -20,72 +20,43 @@ console.log("SOS API HIT",new Date());
 
     // GET USER
     const user = await User.findById(req.user.id)
-.select("name emergencyContacts");
-    // SEND PUSH NOTIFICATION
-    // POPULATE CONTACTS
-
-const populatedUser =
-
-  await User.findById(
-    req.user.id
-  ).populate(
-    "emergencyContacts"
-  );
+  .select("name emergencyContacts")
+  .populate("emergencyContacts");
 
 // SEND TO ALL CONTACTS
 
-for (
+await Promise.all(
+  user.emergencyContacts.map(async (contact) => {
+    const tasks = [];
 
-  const contact of
-  populatedUser.emergencyContacts
+    if (contact.fcmToken) {
+      tasks.push(
+        admin.messaging().send({
+          token: contact.fcmToken,
+          notification: {
+            title: "🚨 SOS ALERT",
+            body: `${user.name} may be in danger`,
+          },
+          data: {
+            latitude: latitude.toString(),
+            longitude: longitude.toString(),
+          },
+        })
+      );
+    }
 
-) {
-
-  if (contact.fcmToken) {
-
-    await admin.messaging().send({
-
-      token:
-        contact.fcmToken,
-
-      notification: {
-
-        title:
-          "🚨 SOS ALERT",
-
-        body:
-`${populatedUser.name}
-may be in danger`
-      },
-
-      data: {
-
-        latitude:
-          latitude.toString(),
-
-        longitude:
-          longitude.toString()
-      }
-    });
-  }
-  await sendSOSMail(
-
-  contact.email,
-
-  populatedUser.name,
-
-  latitude,
-
-  longitude
-);
-    console.log(
-
-      "Notification sent to:",
-
-      contact.email
+    tasks.push(
+      sendSOSMail(
+        contact.email,
+        user.name,
+        latitude,
+        longitude
+      )
     );
-  }
-  
+
+    await Promise.all(tasks);
+  })
+);  
 
     const locationLink =
       `https://maps.google.com/?q=${latitude},${longitude}`;
@@ -101,9 +72,11 @@ ${locationLink}
 
     // SEND RESPONSE
     res.json({
-      message: "SOS Triggered Successfully",
-      sos
-    });
+    success: true,
+    message: "SOS Triggered Successfully"
+});
+
+// Continue sending notifications and emails
 
   } catch (err) {
 
