@@ -83,8 +83,9 @@ may be in danger`
       "Notification sent to:",
 
       contact.email
-    );
-  }    const locationLink =
+     );
+  }
+   const locationLink =
       `https://maps.google.com/?q=${latitude},${longitude}`;
 
     const message = `
@@ -97,12 +98,12 @@ ${locationLink}
 `;
 
     // SEND RESPONSE
-  res.json({
+    res.json({
       message: "SOS Triggered Successfully",
       sos
     });
 
-  } catch (err) {
+   } catch (err) {
 
     console.log(err);
 
