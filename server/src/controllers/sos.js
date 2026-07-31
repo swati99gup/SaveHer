@@ -25,6 +25,7 @@ console.log("SOS API HIT",new Date());
 
 // SEND TO ALL CONTACTS
 
+
 for (
 
   const contact of
@@ -69,8 +70,13 @@ may be in danger`
 
   longitude
 );
+    console.log(
 
-    const locationLink =
+      "Notification sent to:",
+
+      contact.email
+    );
+  }    const locationLink =
       `https://maps.google.com/?q=${latitude},${longitude}`;
 
     const message = `
@@ -83,12 +89,10 @@ ${locationLink}
 `;
 
     // SEND RESPONSE
-    res.json({
-    success: true,
-    message: "SOS Triggered Successfully"
-});
-
-// Continue sending notifications and emails
+  res.json({
+      message: "SOS Triggered Successfully",
+      sos
+    });
 
   } catch (err) {
 
