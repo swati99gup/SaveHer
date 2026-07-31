@@ -25,38 +25,50 @@ console.log("SOS API HIT",new Date());
 
 // SEND TO ALL CONTACTS
 
-await Promise.all(
-  user.emergencyContacts.map(async (contact) => {
-    const tasks = [];
+for (
 
-    if (contact.fcmToken) {
-      tasks.push(
-        admin.messaging().send({
-          token: contact.fcmToken,
-          notification: {
-            title: "🚨 SOS ALERT",
-            body: `${user.name} may be in danger`,
-          },
-          data: {
-            latitude: latitude.toString(),
-            longitude: longitude.toString(),
-          },
-        })
-      );
-    }
+  const contact of
+  populatedUser.emergencyContacts
 
-    tasks.push(
-      sendSOSMail(
-        contact.email,
-        user.name,
-        latitude,
-        longitude
-      )
-    );
+) {
 
-    await Promise.all(tasks);
-  })
-);  
+  if (contact.fcmToken) {
+
+    await admin.messaging().send({
+
+      token:
+        contact.fcmToken,
+
+      notification: {
+
+        title:
+          "🚨 SOS ALERT",
+
+        body:
+`${populatedUser.name}
+may be in danger`
+      },
+
+      data: {
+
+        latitude:
+          latitude.toString(),
+
+        longitude:
+          longitude.toString()
+      }
+    });
+  }
+  await sendSOSMail(
+
+  contact.email,
+
+  populatedUser.name,
+
+  latitude,
+
+  longitude
+);
 
     const locationLink =
       `https://maps.google.com/?q=${latitude},${longitude}`;
