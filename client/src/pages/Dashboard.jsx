@@ -129,9 +129,12 @@ const [message, setMessage] =
   };
 const handleSOS = () => {
 
-  setLoading(true);
+  if (loading) return;
 
+  setLoading(true);
   setMessage("");
+
+  console.log("🚨 SOS button clicked");
 
   navigator.geolocation.getCurrentPosition(
 
@@ -143,10 +146,15 @@ const handleSOS = () => {
       const longitude =
         position.coords.longitude;
 
+      console.log(
+        "📍 Location:",
+        latitude,
+        longitude
+      );
+
       try {
 
         const res = await axios.post(
-
           "https://saveher.onrender.com/api/sos",
 
           {
@@ -156,9 +164,17 @@ const handleSOS = () => {
 
           {
             headers: {
-              Authorization: token
-            }
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json"
+            },
+
+            timeout: 15000
           }
+        );
+
+        console.log(
+          "✅ SOS RESPONSE:",
+          res.data
         );
 
         setMessage(
@@ -167,25 +183,45 @@ const handleSOS = () => {
 
       } catch (err) {
 
-        console.log(err);
+        console.error(
+          "❌ SOS ERROR:",
+          err
+        );
+
+        console.error(
+          "Response:",
+          err.response?.data
+        );
 
         setMessage(
+          err.response?.data?.message ||
           "❌ SOS Failed"
         );
-      }
 
-      setLoading(false);
+      } finally {
+
+        setLoading(false);
+      }
     },
 
     (error) => {
 
-      console.log(error);
+      console.error(
+        "❌ Location Error:",
+        error
+      );
 
       setMessage(
-        "Location Permission Denied"
+        "❌ Location permission denied"
       );
 
       setLoading(false);
+    },
+
+    {
+      enableHighAccuracy: true,
+      timeout: 10000,
+      maximumAge: 0
     }
   );
 };
