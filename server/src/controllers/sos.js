@@ -19,7 +19,7 @@ console.log("SOS API HIT",new Date());
     });
 
     // GET USER
-     const user = await User.findById(req.user.id)
+    const user = await User.findById(req.user.id)
 .select("name emergencyContacts");
     // SEND PUSH NOTIFICATION
     // POPULATE CONTACTS
@@ -32,7 +32,6 @@ const populatedUser =
     "emergencyContacts"
   );
 // SEND TO ALL CONTACTS
-
 
 for (
 
@@ -83,33 +82,20 @@ may be in danger`
       "Notification sent to:",
 
       contact.email
-     );
-  }
-   const locationLink =
+);
+}
+const locationLink =
       `https://maps.google.com/?q=${latitude},${longitude}`;
 
-    const message = `
-🚨 EMERGENCY ALERT 🚨
-
-${user.name} may be in danger.
-
-Location:
-${locationLink}
-`;
 
     // SEND RESPONSE
     res.json({
-      message: "SOS Triggered Successfully",
+message: "SOS Triggered Successfully",
       sos
     });
+} catch (err) {
 
-   } catch (err) {
 
-    console.log(err);
-
-    res.status(500).json({
-      error: err.message
-    });
 
   }
 
